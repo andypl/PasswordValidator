@@ -7,9 +7,4 @@ public record ValidationPasswordResult(Boolean validationStatus, List<String> va
     public ValidationPasswordResult(Boolean validationStatus) {
         this(validationStatus, new ArrayList<>());
     }
-
-    public ValidationPasswordResult(Boolean validationStatus, List<String> validationRules) {
-        this.validationStatus = validationStatus;
-        this.validationRules = validationRules;
-    }
 }

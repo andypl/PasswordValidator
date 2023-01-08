@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import passwordValidator.dto.ValidationPasswordResult;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -18,8 +20,10 @@ class PasswordValidatorTest {
         int DIGITS = 3;
         int LOW_LETTERS = 4;
         int UPPER_LETTERS = 2;
+        int MIN_LENGTH = 3;
+        int MAX_LENGTH = 9;
         String password = "dA456Brkx";
-        List<PasswordRule> passwordRuleList = preparePasswordRulesList(DIGITS, LOW_LETTERS, UPPER_LETTERS);
+        List<PasswordRule> passwordRuleList = preparePasswordRulesList(DIGITS, LOW_LETTERS, UPPER_LETTERS, MIN_LENGTH, MAX_LENGTH);
 
         //when
         ValidationPasswordResult passwordValidator = new PasswordValidator(password, passwordRuleList).validate();
@@ -36,8 +40,10 @@ class PasswordValidatorTest {
         int DIGITS = 3;
         int LOW_LETTERS = 4;
         int UPPER_LETTERS = 2;
+        int MIN_LENGTH = 3;
+        int MAX_LENGTH = 9;
         String password = "dA456rkx";
-        List<PasswordRule> passwordRuleList = preparePasswordRulesList(DIGITS, LOW_LETTERS, UPPER_LETTERS);
+        List<PasswordRule> passwordRuleList = preparePasswordRulesList(DIGITS, LOW_LETTERS, UPPER_LETTERS, MIN_LENGTH, MAX_LENGTH);
 
         //when
         ValidationPasswordResult passwordValidator = new PasswordValidator(password, passwordRuleList).validate();
@@ -55,13 +61,15 @@ class PasswordValidatorTest {
         int DIGITS = 5;
         int LOW_LETTERS = 5;
         int UPPER_LETTERS = 5;
+        int MIN_LENGTH = 3;
+        int MAX_LENGTH = 9;
         String password = "dA456rkx";
         List<String> notValidatedRules = List.of(
                 "Low letter password rule",
                 "Upper letter password rule",
                 "Digit password rule"
         );
-        List<PasswordRule> passwordRuleList = preparePasswordRulesList(DIGITS, LOW_LETTERS, UPPER_LETTERS);
+        List<PasswordRule> passwordRuleList = preparePasswordRulesList(DIGITS, LOW_LETTERS, UPPER_LETTERS, MIN_LENGTH, MAX_LENGTH);
 
         //when
         ValidationPasswordResult passwordValidator = new PasswordValidator(password, passwordRuleList).validate();
@@ -73,11 +81,18 @@ class PasswordValidatorTest {
     }
 
     private List<PasswordRule> preparePasswordRulesList(Integer digits, Integer lowLetters, Integer upperLetters) {
-        return List.of(
+        return Stream.of(
                 new DigitPasswordRule(digits),
                 new LowLetterPasswordRule(lowLetters),
                 new UpperLetterPasswordRule(upperLetters)
-        );
+        ).collect(Collectors.toList());
+    }
+
+    private List<PasswordRule> preparePasswordRulesList(Integer digits, Integer lowLetters, Integer upperLetters, Integer minLength, Integer maxLength) {
+        List<PasswordRule> passwordRuleList = preparePasswordRulesList(digits, lowLetters, upperLetters);
+        passwordRuleList.add(new LengthPasswordRule(minLength, maxLength));
+
+        return passwordRuleList;
     }
 
 }

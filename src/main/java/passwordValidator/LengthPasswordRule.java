@@ -5,7 +5,7 @@ import passwordValidator.exception.IncorrectLengthPasswordRuleException;
 
 import static java.util.Objects.isNull;
 
-public class LengthPasswordRule implements PasswordRule{
+class LengthPasswordRule implements PasswordRule{
     public static final String PASSWORD_RULE_NAME = "Length password rule";
     private final Integer minLength;
     private final Integer maxLength;

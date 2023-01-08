@@ -19,13 +19,17 @@ public class PasswordValidator {
     }
 
     public ValidationPasswordResult validate(){
-        passwordRuleList.stream()
-                .filter(rule -> rule.validate(password).equals(FALSE))
-                .forEach(rule -> rulesNotValidated.add(rule.getName()));
-
+        validatePasswordAgainstRules();
         if(rulesNotValidated.isEmpty()) {
             return new ValidationPasswordResult(TRUE);
         }
+
         return new ValidationPasswordResult(FALSE, rulesNotValidated);
+    }
+
+    private void validatePasswordAgainstRules() {
+        passwordRuleList.stream()
+                .filter(rule -> rule.validate(password).equals(FALSE))
+                .forEach(rule -> rulesNotValidated.add(rule.getName()));
     }
 }
