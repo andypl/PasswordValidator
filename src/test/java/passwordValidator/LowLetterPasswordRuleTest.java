@@ -25,6 +25,12 @@ class LowLetterPasswordRuleTest {
         assertEquals("Incorrect low letters number!", exception.getMessage());
     }
 
+    @Test
+    public void shouldReturnRuleName() {
+        PasswordRule lowLetterRule = new LowLetterPasswordRule(2);
+        assertEquals("Low letter password rule", lowLetterRule.getName());
+    }
+
     private static Stream<Arguments> providerForShouldValidateRule() {
         return Stream.of(
                 Arguments.of("12bXa", Boolean.TRUE),

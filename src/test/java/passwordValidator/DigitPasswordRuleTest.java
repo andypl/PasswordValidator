@@ -20,6 +20,12 @@ class DigitPasswordRuleTest {
     }
 
     @Test
+    public void shouldReturnRuleName() {
+        PasswordRule upperLetterRule = new UpperLetterPasswordRule(2);
+        assertEquals("Upper letter password rule", upperLetterRule.getName());
+    }
+
+    @Test
     void shouldThrownAnExceptionIncorrectLowLettersNumber() {
         RuntimeException exception = Assertions.assertThrows(DigitPasswordRuleIncorrectCharacterNumberException.class, () -> new DigitPasswordRule(0));
         assertEquals("Incorrect digits number!", exception.getMessage());

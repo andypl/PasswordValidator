@@ -25,6 +25,12 @@ class UpperLetterPasswordRuleTest {
         assertEquals("Incorrect upper letters number!", exception.getMessage());
     }
 
+    @Test
+    public void shouldReturnRuleName() {
+        PasswordRule digitRule = new DigitPasswordRule(2);
+        assertEquals("Digit password rule", digitRule.getName());
+    }
+
     private static Stream<Arguments> providerForShouldValidateRule() {
         return Stream.of(
                 Arguments.of("33GGbb12", Boolean.TRUE),
