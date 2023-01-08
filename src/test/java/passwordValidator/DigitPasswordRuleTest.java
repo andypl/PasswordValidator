@@ -37,7 +37,9 @@ class DigitPasswordRuleTest {
                 Arguments.of("12bXa", Boolean.TRUE),
                 Arguments.of("AAb1agj", Boolean.FALSE),
                 Arguments.of("YUuiFGG", Boolean.FALSE),
-                Arguments.of("87UuhG4Bd45", Boolean.TRUE)
+                Arguments.of("87UuhG4Bd45", Boolean.TRUE),
+                Arguments.of("a", Boolean.FALSE),
+                Arguments.of("aa", Boolean.FALSE)
         );
     }
 }

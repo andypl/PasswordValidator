@@ -37,7 +37,9 @@ class LowLetterPasswordRuleTest {
                 Arguments.of("12bXa", Boolean.TRUE),
                 Arguments.of("AAb123", Boolean.FALSE),
                 Arguments.of("Y1234GG", Boolean.FALSE),
-                Arguments.of("87UuhGGBd", Boolean.TRUE)
+                Arguments.of("87UuhGGBd", Boolean.TRUE),
+                Arguments.of("A", Boolean.FALSE),
+                Arguments.of("AA", Boolean.FALSE)
         );
     }
 }

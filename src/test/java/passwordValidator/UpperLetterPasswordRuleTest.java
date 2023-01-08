@@ -37,7 +37,9 @@ class UpperLetterPasswordRuleTest {
                 Arguments.of("33GGbb12", Boolean.TRUE),
                 Arguments.of("Aby123", Boolean.FALSE),
                 Arguments.of("Y1234gg", Boolean.FALSE),
-                Arguments.of("87uhGGBdrthO", Boolean.TRUE)
+                Arguments.of("87uhGGBdrthO", Boolean.TRUE),
+                Arguments.of("a", Boolean.FALSE),
+                Arguments.of("aa", Boolean.FALSE)
         );
     }
 }
