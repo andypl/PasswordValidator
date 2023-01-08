@@ -21,7 +21,7 @@ class LowLetterPasswordRuleTest {
 
     @Test
     void shouldThrownAnExceptionIncorrectLowLettersNumber() {
-        RuntimeException exception = Assertions.assertThrows(RuntimeException.class, () -> new LowLetterPasswordRule(0));
+        RuntimeException exception = Assertions.assertThrows(LowLetterPasswordRuleIncorrectCharacterNumberException.class, () -> new LowLetterPasswordRule(0));
         assertEquals("Incorrect low letters number!", exception.getMessage());
     }
 

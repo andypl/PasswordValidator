@@ -6,18 +6,19 @@ import static java.lang.Character.isLowerCase;
 
 public class LowLetterPasswordRule implements PasswordRule{
     public static final String LOW_LETTER_REGEX = ".*[a-z].*";
+    public static final String LOW_LETTER_PASSWORD_RULE_NAME = "Low letter password rule";
     private final Integer lowLetterLengths;
 
     public LowLetterPasswordRule(Integer lowLettersLengths) {
         if(lowLettersLengths <= 0) {
-            throw new RuntimeException("Incorrect low letters number!");
+            throw new LowLetterPasswordRuleIncorrectCharacterNumberException("Incorrect low letters number!");
         }
         this.lowLetterLengths = lowLettersLengths;
     }
 
     @Override
     public String getName() {
-        return "Low letter password rule";
+        return LOW_LETTER_PASSWORD_RULE_NAME;
     }
 
     @Override

@@ -21,7 +21,7 @@ class UpperLetterPasswordRuleTest {
 
     @Test
     void shouldThrownAnExceptionIncorrectLowLettersNumber() {
-        RuntimeException exception = Assertions.assertThrows(RuntimeException.class, () -> new UpperLetterPasswordRule(0));
+        RuntimeException exception = Assertions.assertThrows(UpperLetterPasswordRuleIncorrectCharacterNumberException.class, () -> new UpperLetterPasswordRule(0));
         assertEquals("Incorrect upper letters number!", exception.getMessage());
     }
 

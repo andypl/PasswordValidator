@@ -6,17 +6,18 @@ import static java.lang.Character.isUpperCase;
 
 public class UpperLetterPasswordRule implements PasswordRule{
     public static final String LOW_LETTER_REGEX = ".*[A-Z].*";
+    public static final String UPPER_LETTER_PASSWORD_RULE_NAME = "Upper letter password rule";
     private final Integer upperLetterLengths;
     public UpperLetterPasswordRule(Integer upperLetterLengths) {
         if(upperLetterLengths <= 0) {
-            throw new RuntimeException("Incorrect upper letters number!");
+            throw new UpperLetterPasswordRuleIncorrectCharacterNumberException("Incorrect upper letters number!");
         }
         this.upperLetterLengths = upperLetterLengths;
     }
 
     @Override
     public String getName() {
-        return "Upper letter password rule";
+        return UPPER_LETTER_PASSWORD_RULE_NAME;
     }
 
     @Override
