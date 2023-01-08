@@ -83,10 +83,10 @@ class LengthPasswordRuleTest {
 
     public static Stream<Arguments> providerForShouldThrownAnExceptionWhenPasswordLengthIsIncorrect() {
         return Stream.of(
-                Arguments.of("Incorrect password length!", 0, 0),
-                Arguments.of("Incorrect password length!", 0, 1),
-                Arguments.of("Incorrect password length!", 1, 0),
-                Arguments.of("Incorrect password length!", 7, 5)
+                Arguments.of("Incorrect password length! minLength: 0, maxLength: 0", 0, 0),
+                Arguments.of("Incorrect password length! minLength: 0, maxLength: 1", 0, 1),
+                Arguments.of("Incorrect password length! minLength: 1, maxLength: 0", 1, 0),
+                Arguments.of("Incorrect password length! minLength: 7, maxLength: 5", 7, 5)
         );
     }
 }

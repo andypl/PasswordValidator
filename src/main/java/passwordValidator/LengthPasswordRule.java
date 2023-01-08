@@ -14,7 +14,7 @@ public class LengthPasswordRule implements PasswordRule{
             throw new ArgumentsShouldNotBeNullException(minLength, maxLength);
         }
         if((minLength <= 0 || maxLength <= 0) || (minLength > maxLength)) {
-            throw new IncorrectLengthPasswordRuleException("Incorrect password length!");
+            throw new IncorrectLengthPasswordRuleException(minLength, maxLength);
         }
         this.minLength = minLength;
         this.maxLength = maxLength;
