@@ -1,6 +1,6 @@
 package passwordValidator;
 
-interface PasswordRule {
+public interface PasswordRule {
     String getName();
     Boolean validate(String password);
 }

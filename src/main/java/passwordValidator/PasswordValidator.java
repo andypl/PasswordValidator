@@ -1,6 +1,6 @@
 package passwordValidator;
 
-import passwordValidator.dto.ValidationResult;
+import passwordValidator.dto.ValidationPasswordResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +18,14 @@ public class PasswordValidator {
         this.passwordRuleList = passwordRules;
     }
 
-    public void validate(){
+    public ValidationPasswordResult validate(){
         passwordRuleList.stream()
                 .filter(rule -> rule.validate(password).equals(FALSE))
                 .forEach(rule -> rulesNotValidated.add(rule.getName()));
-    }
 
-    public ValidationResult getResult() {
         if(rulesNotValidated.isEmpty()) {
-           return new ValidationResult(TRUE);
+            return new ValidationPasswordResult(TRUE);
         }
-        return new ValidationResult(FALSE, rulesNotValidated);
+        return new ValidationPasswordResult(FALSE, rulesNotValidated);
     }
 }
