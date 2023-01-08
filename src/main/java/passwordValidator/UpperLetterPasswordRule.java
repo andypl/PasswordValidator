@@ -1,10 +1,12 @@
 package passwordValidator;
 
+import passwordValidator.exception.UpperLetterPasswordRuleIncorrectCharacterNumberException;
+
 import java.util.regex.Pattern;
 
 import static java.lang.Character.isUpperCase;
 
-public class UpperLetterPasswordRule implements PasswordRule{
+class UpperLetterPasswordRule implements PasswordRule{
     public static final String LOW_LETTER_REGEX = ".*[A-Z].*";
     public static final String UPPER_LETTER_PASSWORD_RULE_NAME = "Upper letter password rule";
     private final Integer upperLetterLengths;

@@ -1,10 +1,12 @@
 package passwordValidator;
 
+import passwordValidator.exception.DigitPasswordRuleIncorrectCharacterNumberException;
+
 import java.util.regex.Pattern;
 
 import static java.lang.Character.isDigit;
 
-public class DigitPasswordRule implements PasswordRule{
+class DigitPasswordRule implements PasswordRule{
 
     public static final String DIGIT_REGEX = ".*[0-9].*";
     public static final String DIGIT_PASSWORD_RULE_NAME = "Digit password rule";

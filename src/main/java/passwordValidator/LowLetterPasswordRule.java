@@ -1,10 +1,12 @@
 package passwordValidator;
 
+import passwordValidator.exception.LowLetterPasswordRuleIncorrectCharacterNumberException;
+
 import java.util.regex.Pattern;
 
 import static java.lang.Character.isLowerCase;
 
-public class LowLetterPasswordRule implements PasswordRule{
+class LowLetterPasswordRule implements PasswordRule{
     public static final String LOW_LETTER_REGEX = ".*[a-z].*";
     public static final String LOW_LETTER_PASSWORD_RULE_NAME = "Low letter password rule";
     private final Integer lowLetterLengths;
