@@ -30,18 +30,11 @@ class LengthPasswordRuleTest {
         Assertions.assertEquals(validationStatus, validationResult);
     }
 
-    @Test
-    public void shouldThrownAnExceptionWhenMinLengthArgumentIsNull() {
-        RuntimeException exception = Assertions.assertThrows(ArgumentsShouldNotBeNullException.class, () -> new LengthPasswordRule(null, 5));
-
-        assertEquals("At least one of argument is null. minLength: null, maxLength: 5", exception.getMessage());
-    }
-
-    @Test
-    public void shouldThrownAnExceptionWhenMaxLengthArgumentIsNull() {
-        RuntimeException exception = Assertions.assertThrows(ArgumentsShouldNotBeNullException.class, () -> new LengthPasswordRule(5, null));
-
-        assertEquals("At least one of argument is null. minLength: 5, maxLength: null", exception.getMessage());
+    @ParameterizedTest
+    @MethodSource("providerForRuleShouldThrownAnExceptionWhenArgumentIsNull")
+    public void shouldThrownAnExceptionWhenMinLengthArgumentIsNull(String exceptionMessage, Integer minLlength, Integer maxLength) {
+        RuntimeException exception = Assertions.assertThrows(ArgumentsShouldNotBeNullException.class, () -> new LengthPasswordRule(minLlength, maxLength));
+        assertEquals(exceptionMessage, exception.getMessage());
     }
 
     @ParameterizedTest
@@ -87,6 +80,14 @@ class LengthPasswordRuleTest {
                 Arguments.of("Incorrect password length! minLength: 0, maxLength: 1", 0, 1),
                 Arguments.of("Incorrect password length! minLength: 1, maxLength: 0", 1, 0),
                 Arguments.of("Incorrect password length! minLength: 7, maxLength: 5", 7, 5)
+        );
+    }
+
+    public static Stream<Arguments> providerForRuleShouldThrownAnExceptionWhenArgumentIsNull() {
+        return Stream.of(
+                Arguments.of("At least one of argument is null. minLength: null, maxLength: 5", null, 5),
+                Arguments.of("At least one of argument is null. minLength: 5, maxLength: null", 5, null),
+                Arguments.of("At least one of argument is null. minLength: null, maxLength: null", null, null)
         );
     }
 }
