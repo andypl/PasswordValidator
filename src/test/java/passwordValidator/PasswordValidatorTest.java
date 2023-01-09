@@ -2,7 +2,11 @@ package passwordValidator;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import passwordValidator.dto.ValidationPasswordResult;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import passwordValidator.dto.PasswordValidationResult;
+import passwordValidator.exception.PasswordMustNotBeNullOrEmptyExcepption;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +17,6 @@ import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
 class PasswordValidatorTest {
-
     @Test
     public void shouldValidatePassword() {
         //given
@@ -27,11 +30,30 @@ class PasswordValidatorTest {
         List<PasswordRule> passwordRuleList = preparePasswordRulesList(DIGITS, LOW_LETTERS, UPPER_LETTERS, MIN_LENGTH, MAX_LENGTH);
 
         //when
-        ValidationPasswordResult passwordValidator = new PasswordValidator(passwordRuleList).validate(password);
+        PasswordValidationResult passwordValidator = new PasswordValidator(passwordRuleList).validate(password);
 
         //then
         Assertions.assertEquals(TRUE, passwordValidator.validationStatus());
         Assertions.assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidator.validationRules().size());
+    }
+
+    @ParameterizedTest
+    @MethodSource("providerForRuleShouldThrownAnExceptionWhenPasswordIsNullOrEmpty")
+    public void shouldThrownAnExceptionWhenPasswordIsNullOrEmpty(String exceptionMessage, String password) {
+        //given
+        int NOT_VALIDATED_RULES_SIZE = 0;
+        int DIGITS = 3;
+        int LOW_LETTERS = 4;
+        int UPPER_LETTERS = 2;
+        int MIN_LENGTH = 3;
+        int MAX_LENGTH = 9;
+        List<PasswordRule> passwordRuleList = preparePasswordRulesList(DIGITS, LOW_LETTERS, UPPER_LETTERS, MIN_LENGTH, MAX_LENGTH);
+
+        //when
+        RuntimeException excepion = Assertions.assertThrows(PasswordMustNotBeNullOrEmptyExcepption.class, () -> new PasswordValidator(passwordRuleList).validate(password));
+
+        //then
+        Assertions.assertEquals(exceptionMessage, excepion.getMessage());
     }
 
     @Test
@@ -47,7 +69,7 @@ class PasswordValidatorTest {
         List<PasswordRule> passwordRuleList = preparePasswordRulesList(DIGITS, LOW_LETTERS, UPPER_LETTERS, MIN_LENGTH, MAX_LENGTH);
 
         //when
-        ValidationPasswordResult passwordValidator = new PasswordValidator(passwordRuleList).validate(password);
+        PasswordValidationResult passwordValidator = new PasswordValidator(passwordRuleList).validate(password);
 
         //then
         Assertions.assertEquals(FALSE, passwordValidator.validationStatus());
@@ -73,7 +95,7 @@ class PasswordValidatorTest {
         List<PasswordRule> passwordRuleList = preparePasswordRulesList(DIGITS, LOW_LETTERS, UPPER_LETTERS, MIN_LENGTH, MAX_LENGTH);
 
         //when
-        ValidationPasswordResult passwordValidator = new PasswordValidator(passwordRuleList).validate(password);
+        PasswordValidationResult passwordValidator = new PasswordValidator(passwordRuleList).validate(password);
 
         //then
         Assertions.assertEquals(FALSE, passwordValidator.validationStatus());
@@ -94,6 +116,13 @@ class PasswordValidatorTest {
         passwordRuleList.add(new LengthPasswordRule(minLength, maxLength));
 
         return passwordRuleList;
+    }
+
+    public static Stream<Arguments> providerForRuleShouldThrownAnExceptionWhenPasswordIsNullOrEmpty() {
+        return Stream.of(
+                Arguments.of("Password must not be empty or null! Entered password: null", null),
+                Arguments.of("Password must not be empty or null! Entered password: ", "")
+        );
     }
 
 }
