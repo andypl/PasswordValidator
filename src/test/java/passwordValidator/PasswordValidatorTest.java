@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import passwordValidator.dto.ValidationPasswordResult;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -64,11 +65,11 @@ class PasswordValidatorTest {
         int MIN_LENGTH = 3;
         int MAX_LENGTH = 9;
         String password = "dA456rkx";
-        List<String> notValidatedRules = List.of(
+        List<String> notValidatedRules = Stream.of(
                 "Low letter password rule",
                 "Upper letter password rule",
                 "Digit password rule"
-        );
+        ).collect(Collectors.toCollection(ArrayList::new));
         List<PasswordRule> passwordRuleList = preparePasswordRulesList(DIGITS, LOW_LETTERS, UPPER_LETTERS, MIN_LENGTH, MAX_LENGTH);
 
         //when
@@ -85,7 +86,7 @@ class PasswordValidatorTest {
                 new DigitPasswordRule(digits),
                 new LowLetterPasswordRule(lowLetters),
                 new UpperLetterPasswordRule(upperLetters)
-        ).collect(Collectors.toList());
+        ).collect(Collectors.toCollection(ArrayList::new));
     }
 
     private List<PasswordRule> preparePasswordRulesList(Integer digits, Integer lowLetters, Integer upperLetters, Integer minLength, Integer maxLength) {
