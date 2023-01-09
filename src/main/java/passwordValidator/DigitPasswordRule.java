@@ -6,13 +6,14 @@ import java.util.regex.Pattern;
 
 import static java.lang.Character.isDigit;
 
-class DigitPasswordRule implements PasswordRule{
+class DigitPasswordRule implements PasswordRule {
 
     public static final String DIGIT_REGEX = ".*[0-9].*";
     public static final String DIGIT_PASSWORD_RULE_NAME = "Digit password rule";
     private final Integer digitLengths;
+
     public DigitPasswordRule(Integer digitLengths) {
-        if(digitLengths <= 0) {
+        if (digitLengths <= 0) {
             throw new DigitPasswordRuleIncorrectCharacterNumberException("Incorrect digits number!");
         }
         this.digitLengths = digitLengths;
@@ -26,7 +27,7 @@ class DigitPasswordRule implements PasswordRule{
     @Override
     public Boolean validate(String password) {
         Pattern digitPattern = Pattern.compile(DIGIT_REGEX);
-        if(password.length() < digitLengths) {
+        if (password.length() < digitLengths) {
             return false;
         } else if (!digitPattern.matcher(password).matches()) {
             return false;
@@ -39,7 +40,7 @@ class DigitPasswordRule implements PasswordRule{
         Integer digitCharacterSum = 0;
         for (int i = 0; i < password.length(); i++) {
             char passwordCharacter = password.charAt(i);
-            if(isDigit(passwordCharacter)) {
+            if (isDigit(passwordCharacter)) {
                 digitCharacterSum++;
             }
         }

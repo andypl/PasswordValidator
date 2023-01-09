@@ -6,13 +6,13 @@ import java.util.regex.Pattern;
 
 import static java.lang.Character.isLowerCase;
 
-class LowLetterPasswordRule implements PasswordRule{
+class LowLetterPasswordRule implements PasswordRule {
     public static final String LOW_LETTER_REGEX = ".*[a-z].*";
     public static final String LOW_LETTER_PASSWORD_RULE_NAME = "Low letter password rule";
     private final Integer lowLetterLengths;
 
     public LowLetterPasswordRule(Integer lowLettersLengths) {
-        if(lowLettersLengths <= 0) {
+        if (lowLettersLengths <= 0) {
             throw new LowLetterPasswordRuleIncorrectCharacterNumberException("Incorrect low letters number!");
         }
         this.lowLetterLengths = lowLettersLengths;
@@ -26,7 +26,7 @@ class LowLetterPasswordRule implements PasswordRule{
     @Override
     public Boolean validate(String password) {
         Pattern lowLetterPattern = Pattern.compile(LOW_LETTER_REGEX);
-        if(password.length() < lowLetterLengths) {
+        if (password.length() < lowLetterLengths) {
             return false;
         } else if (!lowLetterPattern.matcher(password).matches()) {
             return false;
@@ -40,7 +40,7 @@ class LowLetterPasswordRule implements PasswordRule{
         for (int i = 0; i < password.length(); i++) {
             char passwordCharacter = password.charAt(i);
 
-            if(isLowerCase(passwordCharacter)) {
+            if (isLowerCase(passwordCharacter)) {
                 lowLetterCharacterSum++;
             }
         }

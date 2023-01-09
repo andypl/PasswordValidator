@@ -41,14 +41,12 @@ class LengthPasswordRuleTest {
     @MethodSource("providerForShouldThrownAnExceptionWhenPasswordLengthIsIncorrect")
     public void shouldThrownAnExceptionWhenPasswordLengthIsIncorrect(String exceptionMessage, Integer minLength, Integer maxLength) {
         RuntimeException exception = Assertions.assertThrows(IncorrectLengthPasswordRuleException.class, () -> new LengthPasswordRule(minLength, maxLength));
-
         assertEquals(exceptionMessage, exception.getMessage());
     }
 
     @Test
     public void shouldThrownAnExceptionWhenAllArgumentIsNull() {
         RuntimeException exception = Assertions.assertThrows(ArgumentsShouldNotBeNullException.class, () -> new LengthPasswordRule(null, null));
-
         assertEquals("At least one of argument is null. minLength: null, maxLength: null", exception.getMessage());
     }
 

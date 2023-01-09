@@ -13,20 +13,20 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @Slf4j
 public class PasswordValidator {
-    private List<PasswordRule> passwordRuleList;
+    private final List<PasswordRule> passwordRuleList;
     List<String> rulesNotValidated = new ArrayList<>();
 
-    public PasswordValidator(List<PasswordRule> passwordRules){
+    public PasswordValidator(List<PasswordRule> passwordRules) {
         this.passwordRuleList = passwordRules;
     }
 
-    public PasswordValidationResult validate(String password){
-        if(isEmpty(password)) {
+    public PasswordValidationResult validate(String password) {
+        if (isEmpty(password)) {
             log.info("Password is null or empty. Provided password: {}", password);
             throw new PasswordMustNotBeNullOrEmptyExcepption(password);
         }
         validatePasswordAgainstRules(password);
-        if(rulesNotValidated.isEmpty()) {
+        if (rulesNotValidated.isEmpty()) {
             log.info("Password validation succeeded for password: {} and rules: {}", password, passwordRuleList);
             return new PasswordValidationResult(TRUE);
         }
