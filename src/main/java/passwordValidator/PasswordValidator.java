@@ -11,27 +11,26 @@ import static java.lang.Boolean.TRUE;
 
 @Slf4j
 public class PasswordValidator {
-    private String password;
     private List<PasswordRule> passwordRuleList;
     List<String> rulesNotValidated = new ArrayList<>();
 
-    public PasswordValidator(String password, List<PasswordRule> passwordRules) {
-        this.password = password;
+    public PasswordValidator(List<PasswordRule> passwordRules) {
         this.passwordRuleList = passwordRules;
     }
 
-    public ValidationPasswordResult validate(){
-        validatePasswordAgainstRules();
+    public ValidationPasswordResult validate(String password){
+        validatePasswordAgainstRules(password);
         if(rulesNotValidated.isEmpty()) {
+            log.info("Password validation succeeded for password: {}", password);
             return new ValidationPasswordResult(TRUE);
         }
 
-        log.info("Password validation failed for password: " + password + " and rules: " + rulesNotValidated);
+        log.info("Password validation failed for password: {} and rules: {}", password, rulesNotValidated);
         return new ValidationPasswordResult(FALSE, rulesNotValidated);
     }
 
-    private void validatePasswordAgainstRules() {
-        log.info("Starting validation for password: " + password + " and rules: " + passwordRuleList);
+    private void validatePasswordAgainstRules(String password) {
+        log.info("Starting validation for password: {} and rules: {}", password, passwordRuleList);
         passwordRuleList.stream()
                 .filter(rule -> rule.validate(password).equals(FALSE))
                 .forEach(rule -> rulesNotValidated.add(rule.getName()));

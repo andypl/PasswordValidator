@@ -26,7 +26,7 @@ class PasswordValidatorTest {
         List<PasswordRule> passwordRuleList = preparePasswordRulesList(DIGITS, LOW_LETTERS, UPPER_LETTERS, MIN_LENGTH, MAX_LENGTH);
 
         //when
-        ValidationPasswordResult passwordValidator = new PasswordValidator(password, passwordRuleList).validate();
+        ValidationPasswordResult passwordValidator = new PasswordValidator(passwordRuleList).validate(password);
 
         //then
         Assertions.assertEquals(TRUE, passwordValidator.validationStatus());
@@ -46,7 +46,7 @@ class PasswordValidatorTest {
         List<PasswordRule> passwordRuleList = preparePasswordRulesList(DIGITS, LOW_LETTERS, UPPER_LETTERS, MIN_LENGTH, MAX_LENGTH);
 
         //when
-        ValidationPasswordResult passwordValidator = new PasswordValidator(password, passwordRuleList).validate();
+        ValidationPasswordResult passwordValidator = new PasswordValidator(passwordRuleList).validate(password);
 
         //then
         Assertions.assertEquals(FALSE, passwordValidator.validationStatus());
@@ -72,7 +72,7 @@ class PasswordValidatorTest {
         List<PasswordRule> passwordRuleList = preparePasswordRulesList(DIGITS, LOW_LETTERS, UPPER_LETTERS, MIN_LENGTH, MAX_LENGTH);
 
         //when
-        ValidationPasswordResult passwordValidator = new PasswordValidator(password, passwordRuleList).validate();
+        ValidationPasswordResult passwordValidator = new PasswordValidator(passwordRuleList).validate(password);
 
         //then
         Assertions.assertEquals(FALSE, passwordValidator.validationStatus());
