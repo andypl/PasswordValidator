@@ -20,14 +20,14 @@ class LengthPasswordRuleTest {
     @MethodSource("providerForRuleShouldValidateRule")
     public void shouldValidateRule(Boolean validationStatus, String password, Integer minLength, Integer maxLength) {
         Boolean validationResult = new LengthPasswordRule(minLength, maxLength).validate(password);
-        Assertions.assertEquals(validationStatus, validationResult);
+        assertEquals(validationStatus, validationResult);
     }
 
     @ParameterizedTest
     @MethodSource("providerForRuleShouldNotValidateRule")
     public void shouldNotValidateRule(Boolean validationStatus, String password, Integer minLength, Integer maxLength) {
         Boolean validationResult = new LengthPasswordRule(minLength, maxLength).validate(password);
-        Assertions.assertEquals(validationStatus, validationResult);
+        assertEquals(validationStatus, validationResult);
     }
 
     @ParameterizedTest

@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PasswordValidatorTest {
     @Test
@@ -33,15 +34,14 @@ class PasswordValidatorTest {
         PasswordValidationResult passwordValidator = new PasswordValidator(passwordRuleList).validate(password);
 
         //then
-        Assertions.assertEquals(TRUE, passwordValidator.validationStatus());
-        Assertions.assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidator.validationRules().size());
+        assertEquals(TRUE, passwordValidator.validationStatus());
+        assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidator.validationRules().size());
     }
 
     @ParameterizedTest
     @MethodSource("providerForRuleShouldThrownAnExceptionWhenPasswordIsNullOrEmpty")
     public void shouldThrownAnExceptionWhenPasswordIsNullOrEmpty(String exceptionMessage, String password) {
         //given
-        int NOT_VALIDATED_RULES_SIZE = 0;
         int DIGITS = 3;
         int LOW_LETTERS = 4;
         int UPPER_LETTERS = 2;
@@ -53,7 +53,7 @@ class PasswordValidatorTest {
         RuntimeException excepion = Assertions.assertThrows(PasswordMustNotBeNullOrEmptyExcepption.class, () -> new PasswordValidator(passwordRuleList).validate(password));
 
         //then
-        Assertions.assertEquals(exceptionMessage, excepion.getMessage());
+        assertEquals(exceptionMessage, excepion.getMessage());
     }
 
     @Test
@@ -72,9 +72,9 @@ class PasswordValidatorTest {
         PasswordValidationResult passwordValidator = new PasswordValidator(passwordRuleList).validate(password);
 
         //then
-        Assertions.assertEquals(FALSE, passwordValidator.validationStatus());
-        Assertions.assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidator.validationRules().size());
-        Assertions.assertEquals("Upper letter password rule", passwordValidator.validationRules().get(0));
+        assertEquals(FALSE, passwordValidator.validationStatus());
+        assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidator.validationRules().size());
+        assertEquals("Upper letter password rule", passwordValidator.validationRules().get(0));
     }
 
     @Test
@@ -98,9 +98,9 @@ class PasswordValidatorTest {
         PasswordValidationResult passwordValidator = new PasswordValidator(passwordRuleList).validate(password);
 
         //then
-        Assertions.assertEquals(FALSE, passwordValidator.validationStatus());
-        Assertions.assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidator.validationRules().size());
-        Assertions.assertEquals(TRUE, passwordValidator.validationRules().containsAll(notValidatedRules));
+        assertEquals(FALSE, passwordValidator.validationStatus());
+        assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidator.validationRules().size());
+        assertEquals(TRUE, passwordValidator.validationRules().containsAll(notValidatedRules));
     }
 
     private List<PasswordRule> preparePasswordRulesList(Integer digits, Integer lowLetters, Integer upperLetters) {
