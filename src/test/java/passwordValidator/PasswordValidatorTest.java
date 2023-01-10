@@ -39,11 +39,11 @@ class PasswordValidatorTest {
         List<PasswordRule> passwordRuleList = preparePasswordRulesList(DIGITS, LOW_LETTERS, UPPER_LETTERS, MIN_LENGTH, MAX_LENGTH);
 
         //when
-        PasswordValidationResult passwordValidator = new PasswordValidator(passwordRuleList).validate(password);
+        PasswordValidationResult passwordValidationResult = new PasswordValidator(passwordRuleList).validate(password);
 
         //then
-        assertEquals(TRUE, passwordValidator.validationStatus());
-        assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidator.notValidatedRules().size());
+        assertEquals(TRUE, passwordValidationResult.validationStatus());
+        assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidationResult.notValidatedRules().size());
     }
 
     @ParameterizedTest
@@ -77,12 +77,12 @@ class PasswordValidatorTest {
         List<PasswordRule> passwordRuleList = preparePasswordRulesList(DIGITS, LOW_LETTERS, UPPER_LETTERS, MIN_LENGTH, MAX_LENGTH);
 
         //when
-        PasswordValidationResult passwordValidator = new PasswordValidator(passwordRuleList).validate(password);
+        PasswordValidationResult passwordValidationResult = new PasswordValidator(passwordRuleList).validate(password);
 
         //then
-        assertEquals(FALSE, passwordValidator.validationStatus());
-        assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidator.notValidatedRules().size());
-        assertEquals("Upper letter password rule", passwordValidator.notValidatedRules().get(0));
+        assertEquals(FALSE, passwordValidationResult.validationStatus());
+        assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidationResult.notValidatedRules().size());
+        assertEquals("Upper letter password rule", passwordValidationResult.notValidatedRules().get(0));
     }
 
     @Test
@@ -103,12 +103,12 @@ class PasswordValidatorTest {
         List<PasswordRule> passwordRuleList = preparePasswordRulesList(DIGITS, LOW_LETTERS, UPPER_LETTERS, MIN_LENGTH, MAX_LENGTH);
 
         //when
-        PasswordValidationResult passwordValidator = new PasswordValidator(passwordRuleList).validate(password);
+        PasswordValidationResult passwordValidationResult = new PasswordValidator(passwordRuleList).validate(password);
 
         //then
-        assertEquals(FALSE, passwordValidator.validationStatus());
-        assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidator.notValidatedRules().size());
-        assertEquals(TRUE, passwordValidator.notValidatedRules().containsAll(notValidatedRules));
+        assertEquals(FALSE, passwordValidationResult.validationStatus());
+        assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidationResult.notValidatedRules().size());
+        assertEquals(TRUE, passwordValidationResult.notValidatedRules().containsAll(notValidatedRules));
     }
 
     @Test
@@ -133,11 +133,11 @@ class PasswordValidatorTest {
         List<PasswordRule> passwordRuleList = preparePasswordRulesList(rulesParams);
 
         //when
-        PasswordValidationResult passwordValidator = new PasswordValidator(passwordRuleList).validate(password);
+        PasswordValidationResult passwordValidatorResult = new PasswordValidator(passwordRuleList).validate(password);
 
         //then
-        assertEquals(FALSE, passwordValidator.validationStatus());
-        assertEquals(TRUE, passwordValidator.notValidatedRules().containsAll(notValidatedRules));
+        assertEquals(FALSE, passwordValidatorResult.validationStatus());
+        assertEquals(TRUE, passwordValidatorResult.notValidatedRules().containsAll(notValidatedRules));
     }
 
     private List<PasswordRule> preparePasswordRulesList(Integer digits, Integer lowLetters, Integer upperLetters) {
