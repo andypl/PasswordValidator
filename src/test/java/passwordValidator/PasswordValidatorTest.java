@@ -130,7 +130,7 @@ class PasswordValidatorTest {
                 "Length password rule",
                 "Special character password rule"
         ).collect(Collectors.toCollection(ArrayList::new));
-        List<PasswordRule> passwordRuleList = preparePasswordRulesList(rulesParams);
+        List<PasswordRule> passwordRuleList = prepareAllPasswordRulesList(rulesParams);
 
         //when
         PasswordValidationResult passwordValidatorResult = new PasswordValidator(passwordRuleList).validate(password);
@@ -148,7 +148,7 @@ class PasswordValidatorTest {
         ).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    private List<PasswordRule> preparePasswordRulesList(Map<String, Integer> rulesParams) {
+    private List<PasswordRule> prepareAllPasswordRulesList(Map<String, Integer> rulesParams) {
         return Stream.of(
                 new DigitPasswordRule(rulesParams.get(DIGIT_PASSWORD_PASSWORD_RULE)),
                 new LowLetterPasswordRule(rulesParams.get(LOW_LETTER_PASSWORD_RULE)),
