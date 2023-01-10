@@ -10,6 +10,7 @@ import passwordValidator.exception.PasswordMustNotBeNullOrEmptyExcepption;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,6 +19,13 @@ import static java.lang.Boolean.TRUE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PasswordValidatorTest {
+    private static final String DIGIT_PASSWORD_PASSWORD_RULE = "digitPasswordRule";
+    private static final String LOW_LETTER_PASSWORD_RULE = "lowLetterPasswordRule";
+    private static final String UPPER_LETTER_PASSWORD_RULE = "upperLetterPasswordRule";
+    private static final String MIN_LENGTH_PASSWORD_RULE = "minLengthPasswordRule";
+    private static final String MAX_LENGTH_PASSWORD_RULE = "maxLengthPasswordRule";
+    private static final String SPECIAL_CAHRACTER_PASSWORD_RULE = "specialCharacterPasswordRule";
+
     @Test
     public void shouldValidatePassword() {
         //given
@@ -35,7 +43,7 @@ class PasswordValidatorTest {
 
         //then
         assertEquals(TRUE, passwordValidator.validationStatus());
-        assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidator.validationRules().size());
+        assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidator.notValidatedRules().size());
     }
 
     @ParameterizedTest
@@ -73,8 +81,8 @@ class PasswordValidatorTest {
 
         //then
         assertEquals(FALSE, passwordValidator.validationStatus());
-        assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidator.validationRules().size());
-        assertEquals("Upper letter password rule", passwordValidator.validationRules().get(0));
+        assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidator.notValidatedRules().size());
+        assertEquals("Upper letter password rule", passwordValidator.notValidatedRules().get(0));
     }
 
     @Test
@@ -99,8 +107,37 @@ class PasswordValidatorTest {
 
         //then
         assertEquals(FALSE, passwordValidator.validationStatus());
-        assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidator.validationRules().size());
-        assertEquals(TRUE, passwordValidator.validationRules().containsAll(notValidatedRules));
+        assertEquals(NOT_VALIDATED_RULES_SIZE, passwordValidator.notValidatedRules().size());
+        assertEquals(TRUE, passwordValidator.notValidatedRules().containsAll(notValidatedRules));
+    }
+
+    @Test
+    public void shouldNotValidateAllRules() {
+        //given
+        String password = "3uyUBH%";
+        Map<String, Integer> rulesParams = Map.of(
+                DIGIT_PASSWORD_PASSWORD_RULE, 2,
+                LOW_LETTER_PASSWORD_RULE, 3,
+                UPPER_LETTER_PASSWORD_RULE, 4,
+                MIN_LENGTH_PASSWORD_RULE, 1,
+                MAX_LENGTH_PASSWORD_RULE, 3,
+                SPECIAL_CAHRACTER_PASSWORD_RULE, 2
+        );
+        List<String> notValidatedRules = Stream.of(
+                "Low letter password rule",
+                "Upper letter password rule",
+                "Digit password rule",
+                "Length password rule",
+                "Special character password rule"
+        ).collect(Collectors.toCollection(ArrayList::new));
+        List<PasswordRule> passwordRuleList = preparePasswordRulesList(rulesParams);
+
+        //when
+        PasswordValidationResult passwordValidator = new PasswordValidator(passwordRuleList).validate(password);
+
+        //then
+        assertEquals(FALSE, passwordValidator.validationStatus());
+        assertEquals(TRUE, passwordValidator.notValidatedRules().containsAll(notValidatedRules));
     }
 
     private List<PasswordRule> preparePasswordRulesList(Integer digits, Integer lowLetters, Integer upperLetters) {
@@ -108,6 +145,16 @@ class PasswordValidatorTest {
                 new DigitPasswordRule(digits),
                 new LowLetterPasswordRule(lowLetters),
                 new UpperLetterPasswordRule(upperLetters)
+        ).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    private List<PasswordRule> preparePasswordRulesList(Map<String, Integer> rulesParams) {
+        return Stream.of(
+                new DigitPasswordRule(rulesParams.get(DIGIT_PASSWORD_PASSWORD_RULE)),
+                new LowLetterPasswordRule(rulesParams.get(LOW_LETTER_PASSWORD_RULE)),
+                new UpperLetterPasswordRule(rulesParams.get(UPPER_LETTER_PASSWORD_RULE)),
+                new LengthPasswordRule(rulesParams.get(MIN_LENGTH_PASSWORD_RULE), rulesParams.get(MAX_LENGTH_PASSWORD_RULE)),
+                new SpecialCharacterPasswordRule(rulesParams.get(SPECIAL_CAHRACTER_PASSWORD_RULE))
         ).collect(Collectors.toCollection(ArrayList::new));
     }
 
